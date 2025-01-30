@@ -40,6 +40,8 @@
         |> type:
             Mais flexível, usado para uniões (|) ou interseções (&).
             Pode representar outros tipos além de objetos, como primitivos.
+
+        |> Link útil: https://www.typescriptlang.org/docs/handbook/interfaces.html
 */
 function saudarComOla(pessoa) {
     console.log('Olá, ' + pessoa.nome);
@@ -79,5 +81,50 @@ meuCliente.nome = 'Han'; // atendendo ao atributo obrigatório
 saudarComOla(meuCliente);
 meuCliente.saudar('Solo'); // atendendo ao método obrigatório
 console.log(`A última compra realizada foi em: ${meuCliente.ultimaCompra}`); // Note que o typescript aceitou o uso do this.
-// ------------------------------------USANDO INTERFACES NO CONTEXTO DE FUNÇÃO
+let potencia;
+potencia = function (base, exp) {
+    // Math.pow(3,10)
+    // 3 ** 10
+    return Array(exp).fill(base).reduce((t, a) => t * a);
+};
+console.log(potencia(3, 10));
+console.log(Math.pow(3, 10));
+console.log(Math.pow(3, 10));
+class RealA {
+    a() { }
+}
+class RealAB {
+    a() { }
+    b() { }
+}
+class RealABC {
+    a() { }
+    b() { }
+    c() { }
+}
+class AbstrataABD {
+    a() { }
+    b() { }
+}
+Object.prototype.log = function () {
+    console.log(this.toString());
+};
+const x = 2;
+const y = 3;
+const z = 4;
+console.log(x);
+console.log(y);
+console.log(z);
+x.log();
+y.log();
+z.log();
+// Note que adicionei um atributo altura ao objeto cli.
+const cli = {
+    nome: 'Maria',
+    altura: 1.65,
+    toString() {
+        return this.nome, this.altura;
+    }
+};
+cli.log();
 //# sourceMappingURL=interfaces.js.map

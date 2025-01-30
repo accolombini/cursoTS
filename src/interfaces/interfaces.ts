@@ -39,6 +39,8 @@
         |> type:
             Mais flexível, usado para uniões (|) ou interseções (&).
             Pode representar outros tipos além de objetos, como primitivos.
+
+        |> Link útil: https://www.typescriptlang.org/docs/handbook/interfaces.html
 */
 
 // Vamos inserir o conceito de interface neste script
@@ -95,3 +97,98 @@ console.log(`A última compra realizada foi em: ${meuCliente.ultimaCompra}`)  //
 
 // ------------------------------------USANDO INTERFACES NO CONTEXTO DE FUNÇÃO
 
+// Neste caso ela será atendida apenas no contexto de função -> acompanhe
+
+// Interface do tipo Fução
+
+interface FuncaoCalculo {
+    (a: number, b: number): number
+}
+
+let potencia: FuncaoCalculo
+
+potencia = function(base: number, exp: number): number {
+    // Math.pow(3,10)
+    // 3 ** 10
+    return Array(exp).fill(base).reduce((t, a) => t * a)
+}
+
+console.log(potencia(3,10))
+console.log(Math.pow(3,10))
+console.log(3 ** 10)
+
+// ------------------------------------HERANÇA COM INTERFACES
+
+interface A {
+    a(): void
+}
+
+interface B {
+    b(): void
+}
+
+// Note o uso da palavra reservada extends -> ela permite aplicar todos os métodos e atributos da classe pai na classe filha
+
+// Importante sempre que falar de herança lembre-se da frase --> "É UM"
+interface ABC extends A, B {
+    c(): void
+}
+
+class RealA implements A {
+    a(): void {}
+}
+
+class RealAB implements A, B {
+    a(): void {}
+    b(): void {}
+}
+
+class RealABC implements ABC {
+    a(): void {}
+    b(): void {}
+    c(): void {}
+}
+
+abstract class AbstrataABD implements A, B {
+    a(): void {}
+    b(): void {}
+    abstract d(): void
+}
+
+
+// ------------------------------------USO DE INTERFACES PARA ESTENDER OBJETOS
+
+// Note que ao longo de todo o processo o compilador irá reclamar de .log, pois para ele isso significa um erro, mas ele ignora pois o objeto Object possui o metodo log.
+
+// Vamos resolver esse problema criando uma interface para o objeto Object -> veja como é simples resolver esse problema.
+
+interface Object {
+    log(): void
+    
+}
+Object.prototype.log = function() {
+    console.log(this.toString())
+}
+
+const x = 2
+const y = 3
+const z = 4
+
+console.log(x)
+console.log(y)
+console.log(z)
+
+x.log()
+y.log()
+z.log()
+
+// Note que adicionei um atributo altura ao objeto cli.
+const cli = {
+    nome: 'Maria',
+    altura: 1.65,
+    toString() {
+        return this.nome, this.altura
+    }
+}
+
+cli.log()

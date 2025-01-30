@@ -305,4 +305,60 @@ __Confira também o arquivo package.json__
 ``` 
 ```script
   npm run watch
-````
+```
+
+## Desenvolver fora dos domínios do icloud e ainda assim garantir a segurnaça do icloud como repositório em nuvem
+
+#### Criar o Repositório Git Fora do iCloud e Trabalhar Dentro
+
+__Passo 1: -> Criar o repositório fora do iCloud:__
+
+```TypeScript
+
+    mkdir ~/cursoTS_repo
+    cd ~/cursoTS_repo
+    git init
+```
+_Nota: -> Isso mantém o controle de versão seguro fora do iCloud._
+
+__Passo 2: -> Criar um link simbólico para trabalhar no iCloud:__
+
+```TypeScript
+
+    ln -s ~/cursoTS_repo "/Users/accol/iCloud Drive (Arquivo) - 1/PROJETOS/cursoTS"
+```
+_Nota: -> Isso cria um atalho para que você possa acessar e editar os arquivos diretamente do iCloud, mas os arquivos Git e históricos ficam fora do iCloud, garantindo segurança._
+
+# Como desenvolver nessa configuração usando o VsCode (usando o SSD externo)
+
+#### Temos duas opções para isso, veja a seguir:
+
+__Opção 1: Trabalhar Diretamente pelo iCloud__
+
+```TypeScript
+  📍 Se você quiser editar os arquivos dentro do iCloud e manter o backup automático, mas o Git ainda estar fora do iCloud, abra o projeto no VS Code usando:
+
+    code "/Users/accol/iCloud Drive (Arquivo) - 1/PROJETOS/cursoTS"
+
+    🟢 O que acontece aqui?
+
+      1. O VS Code abre o projeto como se estivesse no iCloud.
+      2. O Git ainda está fora do iCloud e continua funcionando normalmente, pois o link simbólico aponta para o repositório local (~/cursoTS_repo).
+      3. O iCloud sincroniza automaticamente as alterações que você fizer.
+      🚀 Melhor para: Se você quiser editar diretamente do iCloud sem se preocupar com sincronização manual.
+
+```
+__Opção 2: Trabalhar Diretamente pelo SSD__
+
+```TypeScript
+
+  📍 Se você quiser evitar possíveis atrasos do iCloud, abrir diretamente do SSD e sincronizar depois, use:
+
+    code ~/cursoTS_repo
+🟢 O que acontece aqui?
+
+    1. O VS Code abre o projeto diretamente no SSD (~/cursoTS_repo).
+    2. Você não depende do iCloud Drive para nada durante o desenvolvimento.
+    3. O iCloud ainda recebe as alterações automaticamente porque os arquivos dentro do iCloud são apenas links para o repositório.
+    🚀 Melhor para: Se você quiser performance máxima e menos impacto da sincronização do iCloud durante o desenvolvimento.
+```
