@@ -98,3 +98,80 @@ function perfilAdmin<T extends Construtor>(construtor: T) {
     }
     
 }
+
+// Decorator Método -> o decorator será chamado sempre que a classe for carregada.
+// Object.freeze() -> congela o objeto, não permitindo alterações.
+
+function congelar(alvo: any, nomePropriedade: string, descritor: PropertyDescriptor) {
+    console.log(alvo);  // Note que alvo é o protótipo da classe.
+    console.log(nomePropriedade);  // Note que nomePropriedade é o nome do método que está sendo decorado.
+    descritor.writable = false;  // Note que writable é uma propriedade de descritor que pode ser alterada.
+}
+
+class ContaCorrente {
+    @naoNegativo
+    private saldo: number;
+
+    constructor(saldo: number) {
+        this.saldo = saldo;
+    }
+
+    @congelar
+    sacar(@paramInfo valor: number) {  // Note que o decorator de parâmetro é chamado antes do decorator de método.
+         if (valor <= this.saldo) {
+            this.saldo -= valor;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @congelar
+    getSaldo() {
+        return this.saldo;
+    }
+}
+
+const cc = new ContaCorrente(10248.57);
+cc.sacar(5000);
+console.log(cc.getSaldo());
+cc.sacar(5248.57);
+console.log(cc.getSaldo());
+cc.sacar(50.00);
+console.log(cc.getSaldo());
+
+// cc.getSaldo = function() {
+//     return this['saldo'] + 7000;
+// }
+
+console.log(cc.getSaldo());
+
+
+// Decoator de Atributo
+
+function naoNegativo(alvo: any, nomePropriedade: string) {  // Note que alvo é o protótipo da classe.
+    delete alvo[nomePropriedade];  // Note que a propriedade é deletada do protótipo da classe.
+    const nomePropriedade_ = nomePropriedade;  // Note que o nome da propriedade é armazenado em uma variável.
+    Object.defineProperty(alvo, nomePropriedade, {  // Note que a propriedade é recriada com as características desejadas.
+        get(): any {
+            return alvo['_' + nomePropriedade_];
+        },
+        set(valor: any): void {
+            if (valor < 0) {
+                throw new Error('Saldo inválido');
+            } else {
+                alvo['_' + nomePropriedade_] = valor;
+            }
+        }
+    });
+}
+
+// Decorator de Parâmetro de Método
+
+// Como exempl vamos o método sacar
+
+function paramInfo(alvo: any, nomeMetodo: string, indiceParam: number) {  // Note que alvo é o protótipo da classe. e neste caso você não terá acesso ao valor do parâmetro.
+    console.log(`Alvo: ${alvo}`);
+    console.log(`Método: ${nomeMetodo}`);
+    console.log(`Índice Param: ${indiceParam}`);
+}
